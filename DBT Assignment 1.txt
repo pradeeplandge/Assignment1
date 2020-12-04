@@ -1,0 +1,370 @@
+mysql> \c
+mysql> create database library;
+Query OK, 1 row affected (0.46 sec)
+
+mysql> use library;
+Database changed
+mysql> create table Member(Member_Id int,Member_Name varchar(30),Member_address varchar(50),Acc_Open_Date Date,Membership_type Varchar(20),Penalty_Amount Number(7));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Number(7))' at line 1
+mysql>  create table Member(Member_Id int,Member_Name varchar(30),Member_address varchar(50),Acc_Open_Date Date,Membership_type Varchar(20),Penalty_Amount int(4));
+Query OK, 0 rows affected, 1 warning (2.72 sec)
+
+mysql> create table Books(Book_No int(6),Book_Name ^C
+mysql> \c
+mysql> create table Books(Book_No int(6),Book_Name VarChar(30),Author_name Varchar(30),cost int(7),Category ^C
+mysql> \c
+mysql>  create table Books(Book_No int(6),Book_Name VarChar(30),Author_name Varchar(30),cost int(7),Category char(10));
+Query OK, 0 rows affected, 2 warnings (1.41 sec)
+
+mysql> create table Issue (Lib_Issue_Id int(10),Book_No int(6),Member_Id int(5),Issue_Date Date,Return_date Date);
+Query OK, 0 rows affected, 3 warnings (1.67 sec)
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | YES  |     | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
+| Penalty_Amount  | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.20 sec)
+
+mysql> desc Books;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | YES  |     | NULL    |       |
+| Book_Name   | varchar(30) | YES  |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| cost        | int         | YES  |     | NULL    |       |
+| Category    | char(10)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | YES  |     | NULL    |       |
+| Book_No      | int  | YES  |     | NULL    |       |
+| Member_Id    | int  | YES  |     | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | YES  |     | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
+| Penalty_Amount  | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table Member add constraint primary key(Member_id);
+Query OK, 0 rows affected (2.98 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
+| Penalty_Amount  | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> desc Books;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | YES  |     | NULL    |       |
+| Book_Name   | varchar(30) | YES  |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| cost        | int         | YES  |     | NULL    |       |
+| Category    | char(10)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql>  alter table Books add constraint primary key(Book_No);
+Query OK, 0 rows affected (2.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Books;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   | PRI | NULL    |       |
+| Book_Name   | varchar(30) | YES  |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| cost        | int         | YES  |     | NULL    |       |
+| Category    | char(10)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.27 sec)
+
+mysql> alter table Member drop column  Penalty_Amount;
+Query OK, 0 rows affected (1.50 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.08 sec)
+
+mysql> insert into Member values(1,'Richa sharma','pune','10-Dec-05','Lifetime');
+ERROR 1292 (22007): Incorrect date value: '10-Dec-05' for column 'Acc_Open_Date' at row 1
+mysql> select date-format( Acc_Open_Date,%m-%d-%y)from Member;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%m-%d-%y)from Member' at line 1
+mysql> select date-format( Acc_Open_Date,%m-%d-%y)from Member4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%m-%d-%y)from Member4' at line 1
+mysql> select date-format( Acc_Open_Date,%d-%m-%y)from Member;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%d-%m-%y)from Member' at line 1
+mysql>  insert into Member values(1,'Richa sharma','pune','10-11-05','Lifetime');
+Query OK, 1 row affected (0.26 sec)
+
+mysql> secet date_format(Acc_Open_Date, %d-%m-%y)from Member;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'secet date_format(Acc_Open_Date, %d-%m-%y)from Member' at line 1
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.20 sec)
+
+mysql> use Member;
+ERROR 1049 (42000): Unknown database 'member'
+mysql> \c
+mysql> use table Member;
+ERROR 1049 (42000): Unknown database 'table'
+mysql> use library;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_library |
++-------------------+
+| books             |
+| issue             |
+| member            |
++-------------------+
+3 rows in set (0.07 sec)
+
+mysql> desc Books;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   | PRI | NULL    |       |
+| Book_Name   | varchar(30) | YES  |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| cost        | int         | YES  |     | NULL    |       |
+| Category    | char(10)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | YES  |     | NULL    |       |
+| Book_No      | int  | YES  |     | NULL    |       |
+| Member_Id    | int  | YES  |     | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql> insert into Member values(1,'Richa sharma','pune','10-11-20','Lifetime');
+ERROR 1062 (23000): Duplicate entry '1' for key 'member.PRIMARY'
+mysql> insert into Member values(2,'garima sen','pune','04-12-20','Annual');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into Member values(1,'Richa sharma','pune','01-12-2020','Lifetime');
+ERROR 1292 (22007): Incorrect date value: '01-12-2020' for column 'Acc_Open_Date' at row 1
+mysql> insert into Member values(1,'Richa sharma','pune','04-12-20','Lifetime');
+ERROR 1062 (23000): Duplicate entry '1' for key 'member.PRIMARY'
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.08 sec)
+
+mysql> select * from Member;
++-----------+--------------+----------------+---------------+-----------------+
+| Member_Id | Member_Name  | Member_address | Acc_Open_Date | Membership_type |
++-----------+--------------+----------------+---------------+-----------------+
+|         1 | Richa sharma | pune           | 2010-11-05    | Lifetime        |
+|         2 | garima sen   | pune           | 2004-12-20    | Annual          |
++-----------+--------------+----------------+---------------+-----------------+
+2 rows in set (0.02 sec)
+
+mysql> insert into Member values(3,'pradeep landge','nanded','22-10-2020','Permaonth');
+ERROR 1292 (22007): Incorrect date value: '22-10-2020' for column 'Acc_Open_Date' at row 1
+mysql> insert into Member values(3,'pradeep landge','nanded','20-10-10','Permaonth');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into Member values(4,'prafull landge','nanded','20-05-29','Permaonth');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> insert into Member values(5,'pratiksha landge','nagapur','22-10-2020','Lifetime');
+ERROR 1292 (22007): Incorrect date value: '22-10-2020' for column 'Acc_Open_Date' at row 1
+mysql>  insert into Member values(5,'pratiksha landge','nagapur','12-10-2020','Lifetime');
+ERROR 1292 (22007): Incorrect date value: '12-10-2020' for column 'Acc_Open_Date' at row 1
+mysql> insert into Member values(5,'pratiksha landge','nagapur','12-08-30','Lifetime');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into Member values(6,'pratiksha kamble','naigaon','14-08-05','Lifetime');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> desc Member;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Member_Id       | int         | NO   | PRI | NULL    |       |
+| Member_Name     | varchar(30) | YES  |     | NULL    |       |
+| Member_address  | varchar(50) | YES  |     | NULL    |       |
+| Acc_Open_Date   | date        | YES  |     | NULL    |       |
+| Membership_type | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.07 sec)
+
+mysql> select * from Member;
++-----------+------------------+----------------+---------------+-----------------+
+| Member_Id | Member_Name      | Member_address | Acc_Open_Date | Membership_type |
++-----------+------------------+----------------+---------------+-----------------+
+|         1 | Richa sharma     | pune           | 2010-11-05    | Lifetime        |
+|         2 | garima sen       | pune           | 2004-12-20    | Annual          |
+|         3 | pradeep landge   | nanded         | 2020-10-10    | Permaonth       |
+|         4 | prafull landge   | nanded         | 2020-05-29    | Permaonth       |
+|         5 | pratiksha landge | nagapur        | 2012-08-30    | Lifetime        |
+|         6 | pratiksha kamble | naigaon        | 2014-08-05    | Lifetime        |
++-----------+------------------+----------------+---------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into Books values(101,'let us c','denis ritchie',450,'system');
+Query OK, 1 row affected (0.29 sec)
+
+mysql>  insert into Books values(102,'oracle complete reference','loni',550,'database');
+Query OK, 1 row affected (0.13 sec)
+
+mysql>  insert into Books values(103,'masteringSQL','loni',250,'database');
+Query OK, 1 row affected (0.08 sec)
+
+mysql>  insert into Books values(104,'Ph SqL-ref','scotturman',750,'database');
+Query OK, 1 row affected (0.13 sec)
+
+mysql> desc Books;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   | PRI | NULL    |       |
+| Book_Name   | varchar(30) | YES  |     | NULL    |       |
+| Author_name | varchar(30) | YES  |     | NULL    |       |
+| cost        | int         | YES  |     | NULL    |       |
+| Category    | char(10)    | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.07 sec)
+
+mysql> select * from Books;
++---------+---------------------------+---------------+------+----------+
+| Book_No | Book_Name                 | Author_name   | cost | Category |
++---------+---------------------------+---------------+------+----------+
+|     101 | let us c                  | denis ritchie |  450 | system   |
+|     102 | oracle complete reference | loni          |  550 | database |
+|     103 | masteringSQL              | loni          |  250 | database |
+|     104 | Ph SqL-ref                | scotturman    |  750 | database |
++---------+---------------------------+---------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> update Books set cost = 300 where Book_No=103;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Books;
++---------+---------------------------+---------------+------+----------+
+| Book_No | Book_Name                 | Author_name   | cost | Category |
++---------+---------------------------+---------------+------+----------+
+|     101 | let us c                  | denis ritchie |  450 | system   |
+|     102 | oracle complete reference | loni          |  550 | database |
+|     103 | masteringSQL              | loni          |  300 | database |
+|     104 | Ph SqL-ref                | scotturman    |  750 | database |
++---------+---------------------------+---------------+------+----------+
+4 rows in set (0.04 sec)
+
+mysql> drop table Issue;
+Query OK, 0 rows affected (1.30 sec)
+
+mysql> desc Issue;
+ERROR 1146 (42S02): Table 'library.issue' doesn't exist
+mysql> create table Issue (Lib_Issue_Id int(10),Book_No int(6),Member_Id int(5),Issue_Date Date,Return_date Date);
+Query OK, 0 rows affected, 3 warnings (1.48 sec)
+
+mysql> insert into Issue values(7001,101,1,'06-12-10');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> desc Issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_Issue_Id | int  | YES  |     | NULL    |       |
+| Book_No      | int  | YES  |     | NULL    |       |
+| Member_Id    | int  | YES  |     | NULL    |       |
+| Issue_Date   | date | YES  |     | NULL    |       |
+| Return_date  | date | YES  |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into Issue values(7001,101,1,'06-12-10','Null');
+ERROR 1292 (22007): Incorrect date value: 'Null' for column 'Return_date' at row 1
+mysql> select date-format( Issue_Date,%m-%d-%y)from Issue_Date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%m-%d-%y)from Issue_Date' at line 1
+mysql>
+mysql> /c
+    -> ^C
+mysql> \c
+mysql> insert into Issue values(7001,101,1,'06-12-30','Null');
+ERROR 1292 (22007): Incorrect date value: 'Null' for column 'Return_date' at row 1
+mysql> select * from Issue;
+Empty set (0.00 sec)
+
+mysql> /c
+    ->
