@@ -1,0 +1,361 @@
+mysql> clear;
+mysql> create database p;
+Query OK, 1 row affected (0.45 sec)
+
+mysql> CREATE TABLE P1(PUBID INT(3) PRIMARY KEY, PNAME VARCHAR(30),EMAIL VARCHAR(50)  UNIQUE, PHONE VARCHAR(30));
+Query OK, 0 rows affected, 1 warning (3.13 sec)
+
+mysql> CREATE TABLE  S1(SUBID VARCHAR(5) PRIMARY KEY,SNAME VARCHAR(30));
+Query OK, 0 rows affected (1.83 sec)
+
+mysql> CREATE TABLE  A1( AUID INT(5)  PRIMARY KEY, ANAME VARCHAR(30),EMAIL VARCHAR(50)  UNIQUE,PHONE VARCHAR(30));
+Query OK, 0 rows affected, 1 warning (2.09 sec)
+
+mysql> CREATE TABLE  T1(TITLEID INT(5) PRIMARY KEY,TITLE  VARCHAR(30),PUBID INT(3),SUBID VARCHAR(5),PUBDATE DATE,COVER CHAR(1) CHECK ( COVER IN ('P','H','p','h')),    PRICE INT(4),CONSTRAINT TITLES_PUBID_FK FOREIGN KEY (PUBID) REFERENCES PUBLISHERS(PUBID),CONSTRAINT TITLES_SUBID_FK FOREIGN KEY (SUBID) REFERENCES SUBJECTS(SUBID));
+ERROR 1824 (HY000): Failed to open the referenced table 'publishers'
+mysql> DESC P1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| PUBID | int         | NO   | PRI | NULL    |       |
+| PNAME | varchar(30) | YES  |     | NULL    |       |
+| EMAIL | varchar(50) | YES  | UNI | NULL    |       |
+| PHONE | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.26 sec)
+
+mysql> DESC S1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SUBID | varchar(5)  | NO   | PRI | NULL    |       |
+| SNAME | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> DESC A1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| AUID  | int         | NO   | PRI | NULL    |       |
+| ANAME | varchar(30) | YES  |     | NULL    |       |
+| EMAIL | varchar(50) | YES  | UNI | NULL    |       |
+| PHONE | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE TABLE  T1(TITLEID INT(5) PRIMARY KEY,TITLE  VARCHAR(30),PUBID INT(3),SUBID VARCHAR(5),PUBDATE DATE,COVER CHAR(1) CHECK ( COVER IN ('P','H','p','h')),    PRICE INT(4),CONSTRAINT TITLES_PUBID_FK FOREIGN KEY (PUBID) REFERENCES PUBLISHERS(PUBID),CONSTRAINT TITLES_SUBID_FK FOREIGN KEY (SUBID) REFERENCES SUBJECTS(SUBID));
+ERROR 1824 (HY000): Failed to open the referenced table 'publishers'
+mysql>  CREATE TABLE  T1(TITLEID INT(5) PRIMARY KEY,TITLE  VARCHAR(30),PUBID INT(3),SUBID VARCHAR(5),PUBDATE DATE,COVER CHAR(1) CHECK ( COVER IN ('P','H','p','h')),    PRICE INT(4));
+Query OK, 0 rows affected, 3 warnings (3.01 sec)
+
+mysql> DESC T1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| TITLEID | int         | NO   | PRI | NULL    |       |
+| TITLE   | varchar(30) | YES  |     | NULL    |       |
+| PUBID   | int         | YES  |     | NULL    |       |
+| SUBID   | varchar(5)  | YES  |     | NULL    |       |
+| PUBDATE | date        | YES  |     | NULL    |       |
+| COVER   | char(1)     | YES  |     | NULL    |       |
+| PRICE   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> CREATE TABLE  TT1(TITLEID INT(5) ,AUID INT(5) ,IMPORTANCE INT(2),   PRIMARY KEY(TITLEID,AUID),   CONSTRAINT  TITLESAUTHORS_TITLEID_FK FOREIGN KEY (TITLEID) REFERENCES TITLES(TITLEID),   CONSTRAINT  TITLESAUTHORS_AUTHID_FK FOREIGN KEY (AUID) REFERENCES AUTHORS(AUID));
+ERROR 1824 (HY000): Failed to open the referenced table 'titles'
+mysql> DROP TABLE T1;
+Query OK, 0 rows affected (1.95 sec)
+
+mysql>  CREATE TABLE  T1(TITLEID INT(5) PRIMARY KEY,TITLE  VARCHAR(30),PUBID INT(3),SUBID VARCHAR(5),PUBDATE DATE,COVER CHAR(1) CHECK ( COVER IN ('P','H','p','h')),    PRICE INT(4),CONSTRAINT T1_PUBID_FK FOREIGN KEY (PUBID) REFERENCES P1(PUBID),CONSTRAINT T1_SUBID_FK FOREIGN KEY (SUBID) REFERENCES S1(SUBID));
+Query OK, 0 rows affected, 3 warnings (2.66 sec)
+
+mysql> CREATE TABLE  TT1(TITLEID INT(5) ,AUID INT(5) ,IMPORTANCE INT(2),   PRIMARY KEY(TITLEID,AUID),   CONSTRAINT  TT1_T1_FK FOREIGN KEY (TITLEID) REFERENCES T1(TITLEID),   CONSTRAINT  TT1_AUTHID_FK FOREIGN KEY (AUID) REFERENCES A1(AUID));
+Query OK, 0 rows affected, 3 warnings (1.06 sec)
+
+mysql> CREATE TABLE  SB1(SUBID  VARCHAR(5) PRIMARY KEY, SNAME VARCHAR(30));
+Query OK, 0 rows affected (0.72 sec)
+
+mysql> DESC T1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| TITLEID | int         | NO   | PRI | NULL    |       |
+| TITLE   | varchar(30) | YES  |     | NULL    |       |
+| PUBID   | int         | YES  | MUL | NULL    |       |
+| SUBID   | varchar(5)  | YES  | MUL | NULL    |       |
+| PUBDATE | date        | YES  |     | NULL    |       |
+| COVER   | char(1)     | YES  |     | NULL    |       |
+| PRICE   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.04 sec)
+
+mysql> DESC TT1;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| TITLEID    | int  | NO   | PRI | NULL    |       |
+| AUID       | int  | NO   | PRI | NULL    |       |
+| IMPORTANCE | int  | YES  |     | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC SB1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SUBID | varchar(5)  | NO   | PRI | NULL    |       |
+| SNAME | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO S1 VALUES ('ORA','ORACLE DATABASE 10g');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO S1 VALUES ('JAVA','JAVA LANGUAGE');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO S1 VALUES ('JEE','JAVA ENTEPRISE EDITION');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO S1 VALUES ('VB','VISUAL BASIC.NET');
+Query OK, 1 row affected (0.36 sec)
+
+mysql> INSERT INTO S1 VALUES ('ASP','ASP.NET');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> SELECT * FROM S1;
++-------+------------------------+
+| SUBID | SNAME                  |
++-------+------------------------+
+| ASP   | ASP.NET                |
+| JAVA  | JAVA LANGUAGE          |
+| JEE   | JAVA ENTEPRISE EDITION |
+| ORA   | ORACLE DATABASE 10g    |
+| VB    | VISUAL BASIC.NET       |
++-------+------------------------+
+5 rows in set (0.04 sec)
+
+mysql> INSERT INTO P1 VALUES (1,'WILLEY','WDT@VSNL.NET','91-11-23260877');
+Query OK, 1 row affected (0.27 sec)
+
+mysql> INSERT INTO P1 VALUES (2,'WROX','INFO@WROX.COM',NULL);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> INSERT INTO P1 VALUES (3,'TATA MCGRAW-HILL','FEEDBACK@TATAMCGRAWHILL.COM','91-11-33333322');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO P1 VALUES (4,'TECHMEDIA','BOOKS@TECHMEDIA.COM','91-11-33257660');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> SELECT * FROM P1;
++-------+------------------+-----------------------------+----------------+
+| PUBID | PNAME            | EMAIL                       | PHONE          |
++-------+------------------+-----------------------------+----------------+
+|     1 | WILLEY           | WDT@VSNL.NET                | 91-11-23260877 |
+|     2 | WROX             | INFO@WROX.COM               | NULL           |
+|     3 | TATA MCGRAW-HILL | FEEDBACK@TATAMCGRAWHILL.COM | 91-11-33333322 |
+|     4 | TECHMEDIA        | BOOKS@TECHMEDIA.COM         | 91-11-33257660 |
++-------+------------------+-----------------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO A1 VALUES (101, 'HERBERT SCHILD','HERBERT@YAHOO.COM',NULL);
+Query OK, 1 row affected (0.29 sec)
+
+mysql> INSERT INTO A1 VALUES (102, 'JAMES GOODWILL','GOODWILL@HOTMAIL.COM',NULL);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO A1 VALUES (103, 'DAVAID HUNTER','HUNTER@HOTMAIL.COM',NULL);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO A1 VALUES (104, 'STEPHEN WALTHER','WALTHER@GMAIL.COM',NULL);
+Query OK, 1 row affected (0.20 sec)
+
+mysql> INSERT INTO A1 VALUES (105, 'KEVIN LONEY','LONEY@ORACLE.COM',NULL);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO A1 VALUES (106, 'ED. ROMANS','ROMANS@THESERVERSIDE.COM',NULL);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> SELECT * FROM A1;
++------+-----------------+--------------------------+-------+
+| AUID | ANAME           | EMAIL                    | PHONE |
++------+-----------------+--------------------------+-------+
+|  101 | HERBERT SCHILD  | HERBERT@YAHOO.COM        | NULL  |
+|  102 | JAMES GOODWILL  | GOODWILL@HOTMAIL.COM     | NULL  |
+|  103 | DAVAID HUNTER   | HUNTER@HOTMAIL.COM       | NULL  |
+|  104 | STEPHEN WALTHER | WALTHER@GMAIL.COM        | NULL  |
+|  105 | KEVIN LONEY     | LONEY@ORACLE.COM         | NULL  |
+|  106 | ED. ROMANS      | ROMANS@THESERVERSIDE.COM | NULL  |
++------+-----------------+--------------------------+-------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO T1 VALUES (1001,'ASP.NET UNLEASHED',4,'ASP','12-APR-02','P',540);
+ERROR 1292 (22007): Incorrect date value: '12-APR-02' for column 'PUBDATE' at row 1
+mysql> INSERT INTO T1 VALUES (1001,'ASP.NET UNLEASHED',4,'ASP','2012-04-02','P',540);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO T1 VALUES (1002,'ORACLE10G COMP. REF.',3,'ORA','2005-05-01','P',575);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO T1 VALUES (1003,'MASTERING EJB',1,'JEE','2003-02-05','P',475);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO T1 VALUES (1004,'JAVA COMP. REF',3,'JAVA','2003-04-05','P',499);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO T1 VALUES (1005,'PRO. VB.NET',2,'VB','2015-06-05','P',450);
+Query OK, 1 row affected (0.07 sec)
+
+mysql>  INSERT INTO TT1 VALUES (1001,104,1);
+Query OK, 1 row affected (0.51 sec)
+
+mysql> ^C
+mysql> INSERT INTO TT1 VALUES (1002,105,1);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> INSERT INTO TT1 VALUES (1003,106,1);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO TT1 VALUES (1004,101,1);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> INSERT INTO TT1 VALUES (1005,103,1);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO TT1 VALUES (1005,102,2);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> SELECT * FROM TT1;
++---------+------+------------+
+| TITLEID | AUID | IMPORTANCE |
++---------+------+------------+
+|    1001 |  104 |          1 |
+|    1002 |  105 |          1 |
+|    1003 |  106 |          1 |
+|    1004 |  101 |          1 |
+|    1005 |  102 |          2 |
+|    1005 |  103 |          1 |
++---------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM T1;
++---------+----------------------+-------+-------+------------+-------+-------+
+| TITLEID | TITLE                | PUBID | SUBID | PUBDATE    | COVER | PRICE |
++---------+----------------------+-------+-------+------------+-------+-------+
+|    1001 | ASP.NET UNLEASHED    |     4 | ASP   | 2012-04-02 | P     |   540 |
+|    1002 | ORACLE10G COMP. REF. |     3 | ORA   | 2005-05-01 | P     |   575 |
+|    1003 | MASTERING EJB        |     1 | JEE   | 2003-02-05 | P     |   475 |
+|    1004 | JAVA COMP. REF       |     3 | JAVA  | 2003-04-05 | P     |   499 |
+|    1005 | PRO. VB.NET          |     2 | VB    | 2015-06-05 | P     |   450 |
++---------+----------------------+-------+-------+------------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql>
+
+
+
+- listing --
+select panme ,phone,email from publishers;
+select aname,phone from authors;
+select titleid,title,pubdate from titles;
+select autid,titleid,importance from titleauthors;
+
+-- Like opeartor--
+select * from subjects where sname like 'oracle%';
+select sname from subjects where sname like 'j%';
+select sname from subjects where sname like '%.net%';
+select aname from authors where aname like '%er';
+select *from publishers where panme like '%hill%';
+
+
+-- relational operator--
+select * from titles where price<500;
+select * from subjects where subid='java' or subid='jee';
+select aname from authors where autid>103;
+select * from titles where titleid=1001 or price>400;
+
+-- IN Operator --
+select * from publishers where panme in('TECHMEDIA','WROX');
+
+-- aggregate function --
+select max(price) from titles;
+select avg(importance) from titleauthors;
+select count(autid) from authors;
+select*from authors;
+select sum(price) from titles;
+
+-- DATE --
+select year(sysdate());
+select date(sysdate());
+select day(sysdate());
+select month(sysdate());
+-- select last_day(pubdate from titles where subid='java');
+
+-- dml --
+create table employee (empid int,empname varchar(50));
+insert into employee values (1,'pratima'),(2,'anagha'),(3,'avanti');
+alter table employee add column dept_id int;
+select*from employee;
+alter table employee modify empname char(50);
+desc employee;
+alter table employee modify empname varchar(50);
+update employee set empname='scott' ;
+truncate table employee;
+alter table employee add column sal float(7,3);
+insert into employee (sal) values (1234.567),(1234.567),(1652.786),(1775.156);
+
+-- perform operations --
+select round(sal) from employee;
+-- select trunc(sal) from employee where empid=1;
+select ceil(sal) from employee;
+select floor(sal) from employee;
+-- select sign(-15) from dual;
+select sign(sal) from employee;
+select mod(5,2) from dual;
+select sqrt(36) from dual;
+select power(2,2) from dual;
+
+-- string operations --
+select ascii(empname) from employee;
+select char_length(empname) from employee;
+select concat("pratima  ","jadhav");
+select concat_ws("-","pratima","jadhav");
+-- SELECT FIELD("q", "s", "q", "l");
+select date_format(pubdate,"%d %M %y") from titles;
+select upper(empname) from employee;
+select ucase(empname) from employee;
+select trim("  pratuim lskl jd ") from dual; -- remove leading and trailing spaces 
+SELECT SUBSTRING_INDEX("www.w3schools.com", ".", 1);
+select substring("pratimajadhav",2,6);
+select substr("pratimajadhav",2,6);
+select strcmp("jratu","padha");
+select strcmp("padha","padha");
+select rtrim("   pratuim lskl jd ...           ")from dual; -- remove trailing spaces
+select ltrim("   pratuim lskl jd ");
+select reverse("pratima")from dual;
+select lpad("pratu",20,"kaa");
+SELECT MID("SQL Tutorial", 5, 3) AS ExtractString;
+select repeat("pra",3);
+select length("pra");
+SELECT FORMAT(250500.5634, 2);
+select lower("PRATIMA");
+
+-- add function 
+select adddate("2020-12-25" , interval 10 day);
+select addtime("2017-06-15 09:34:21", "55");
+SELECT CURDATE();
+SELECT CURRENT_TIME();
+select current_timestamp();
+select datediff("2020-06-15" ,"2020-06-12");
+select date_format("2020-06-15","%y");
+select date_format("2020-06-15","%Y");
+select day("2020-12-23");
+select dayname("2020-12-23");
+select dayofmonth("2020-12-23");
+select dayofweek("2020-12-23");
+select extract(month from "2020-12-23");
+
+
+
